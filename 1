@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Webseite</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        /* Hintergrundbild (Wald) */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://your-image-link.com/forest.jpg') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        /* Der pinke Pfad */
+        .path {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 5px;
+            height: 100%;
+            background-color: pink;
+            transform: translateX(-50%);
+            z-index: 1;
+            animation: pathAnimation 10s infinite linear;
+        }
+
+        @keyframes pathAnimation {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(15deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
+        }
+
+        /* Inhalt */
+        .content {
+            text-align: center;
+            padding: 50px;
+            color: white;
+            margin-top: 100vh; /* Damit die Seite zu Beginn nicht sofort sichtbar ist */
+        }
+
+        .text {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .images.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* Schaltflächen */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .button {
+            padding: 20px 40px;
+            background-color: #ff66cc;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #ff3399;
+        }
+
+        /* Türen-Effekt */
+        .door {
+            display: none;
+            width: 0;
+            height: 100px;
+            background-color: #ff66cc;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: width 1s ease;
+        }
+
+        .door.open {
+            width: 50%;
+        }
+
+        .door-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.5rem;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 1s, visibility 1s;
+        }
+
+        .door.open .door-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+    <div class="path"></div>
+
+    <!-- Musik: Vogelgezwitscher -->
+    <audio autoplay loop>
+        <source src="https://www.soundjay.com/nature/bird-chirping-01.mp3" type="audio/mp3">
+        Dein Browser unterstützt das Abspielen von Audio nicht.
+    </audio>
+
+    <div class="content">
+        <div id="text1" class="text">Beispieltext</div>
+        <div class="images">
+            <img src="https://your-image-link.com/wellness1.jpg" alt="Wellness 1">
+            <img src="https://your-image-link.com/wellness2.jpg" alt="Wellness 2">
+            <img src="https://your-image-link.com/wellness3.jpg" alt="Wellness 3">
+        </div>
+        <div id="text2" class="text">Beispieltext2</div>
+
+        <div class="buttons">
+            <button class="button" onclick="openDoor('door1')">X</button>
+            <button class="button" onclick="openDoor('door2')">Y</button>
+            <button class="button" onclick="openDoor('door3')">Z</button>
+        </div>
+
+        <!-- Doppelflügeltüren -->
+        <div id="door1" class="door">
+            <div class="door-text">Gute Wahl</div>
+        </div>
+        <div id="door2" class="door">
+            <div class="door-text">Ich freue mich darauf</div>
+        </div>
+        <div id="door3" class="door">
+            <div class="door-text">Das wird toll</div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll-Effekte
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const text1 = document.getElementById('text1');
+            const text2 = document.getElementById('text2');
+            const images = document.querySelector('.images');
+
+            // Text sichtbar machen
+            if (scrollPosition > 300) {
+                text1.classList.add('visible');
+            }
+
+            // Bilder sichtbar machen
+            if (scrollPosition > 700) {
+                images.classList.add('visible');
+            }
+
+            // Weiteren Text sichtbar machen
+            if (scrollPosition > 1500) {
+                text2.classList.add('visible');
+            }
+        });
+
+        // Türen öffnen
+        function openDoor(doorId) {
+            const door = document.getElementById(doorId);
+            door.classList.add('open');
+        }
+    </script>
+</body>
+</html>
